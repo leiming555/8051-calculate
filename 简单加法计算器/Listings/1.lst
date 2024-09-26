@@ -1,0 +1,13 @@
+C51 COMPILER V9.59.0.0   1                                                                 10/27/2023 21:46:40 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE 1
+OBJECT MODULE PLACED IN .\Objects\1.obj
+COMPILER INVOKED BY: E:\keil_v5\C51\BIN\C51.EXE 1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\1.lst) 
+                    -TABS(3) OBJECT(.\Objects\1.obj)
+
+line level    source
+
+*** ERROR C318 OF 1.c: can't open file '1.c'
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

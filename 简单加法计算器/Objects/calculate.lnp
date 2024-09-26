@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\shuma.obj" 
+TO ".\Objects\78" 
+PRINT(".\Listings\78.m51") RAMSIZE(256) 

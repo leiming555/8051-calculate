@@ -1,0 +1,167 @@
+C51 COMPILER V9.59.0.0   DISPLAY                                                           08/29/2024 14:55:16 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DISPLAY
+OBJECT MODULE PLACED IN .\Objects\display.obj
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE display.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\dis
+                    -play.lst) TABS(2) OBJECT(.\Objects\display.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <INTRINS.H>
+   3          #include "display.h"
+   4          void Delay(unsigned int xms)
+   5          {
+   6   1        unsigned char i, j;
+   7   1        while(xms--)
+   8   1        {
+   9   2          i = 2;
+  10   2          j = 239;
+  11   2          do
+  12   2          {
+  13   3            while (--j);
+  14   3          } while (--i);
+  15   2        }
+  16   1      }
+  17          
+  18          //数码管显示函数
+  19          void Nixie(unsigned char Location,Number)
+  20          {
+  21   1        switch(Location)    //位码输出
+  22   1        {
+  23   2          case 1:P2_4=1;P2_3=1;P2_2=1;break;
+  24   2          case 2:P2_4=1;P2_3=1;P2_2=0;break;
+  25   2          case 3:P2_4=1;P2_3=0;P2_2=1;break;
+  26   2          case 4:P2_4=1;P2_3=0;P2_2=0;break;
+  27   2          case 5:P2_4=0;P2_3=1;P2_2=1;break;
+  28   2          case 6:P2_4=0;P2_3=1;P2_2=0;break;
+  29   2          case 7:P2_4=0;P2_3=0;P2_2=1;break;
+  30   2          case 8:P2_4=0;P2_3=0;P2_2=0;break;
+  31   2        }
+  32   1        P0=NixieTable[Number];  //段码输出
+  33   1      }
+  34          
+  35          unsigned char ScanKey()   /*反复扫描键盘，直到按下后松开按键，并读取数值。Delay(20)开关消抖*/
+  36          
+  37          {
+  38   1        char kn;
+  39   1        kn=25;
+  40   1      while(1)
+  41   1      {
+  42   2        P1=0xFF;
+  43   2        P1_3=0;
+  44   2        if(P1_7==0)
+  45   2          {while(1){Delay(20);if(P1_7!=0){kn=11;break;}}break;}
+  46   2        if(P1_6==0)
+  47   2          {while(1){Delay(20);if(P1_7!=0){kn=1;break;}}break;}
+  48   2        if(P1_5==0)
+  49   2          {while(1){Delay(20);if(P1_7!=0){kn=5;break;}}break;}
+  50   2        if(P1_4==0)
+  51   2          {while(1){Delay(20);if(P1_7!=0){kn=9;break;}}break;}
+  52   2        
+  53   2        P1=0xFF;
+  54   2        P1_2=0;
+C51 COMPILER V9.59.0.0   DISPLAY                                                           08/29/2024 14:55:16 PAGE 2   
+
+  55   2        if(P1_7==0)
+  56   2          {while(1){Delay(20);if(P1_7!=0){kn=12;break;}}break;}
+  57   2        if(P1_6==0)
+  58   2          {while(1){Delay(20);if(P1_7!=0){kn=2;break;}}break;}
+  59   2        if(P1_5==0)
+  60   2          {while(1){Delay(20);if(P1_7!=0){kn=6;break;}}break;}
+  61   2        if(P1_4==0)
+  62   2          {while(1){Delay(20);if(P1_7!=0){kn=0;break;}}break;}
+  63   2          
+  64   2        P1=0xFF;
+  65   2        P1_1=0;
+  66   2        if(P1_7==0)
+  67   2          {while(1){Delay(20);if(P1_7!=0){kn=13;break;}}break;}
+  68   2        if(P1_6==0)
+  69   2          {while(1){Delay(20);if(P1_7!=0){kn=3;break;}}break;}
+  70   2        if(P1_5==0)
+  71   2          {while(1){Delay(20);if(P1_7!=0){kn=7;break;}}break;}
+  72   2        if(P1_4==0)
+  73   2          {while(1){Delay(20);if(P1_7!=0){kn=21;break;}}break;}
+  74   2        
+  75   2          
+  76   2        P1=0xFF;
+  77   2        P1_0=0;
+  78   2        if(P1_7==0)
+  79   2          {while(1){Delay(20);if(P1_7!=0){kn=22;break;}}break;}
+  80   2        if(P1_6==0)
+  81   2          {while(1){Delay(20);if(P1_7!=0){kn=4;break;}}break;}
+  82   2        if(P1_5==0)
+  83   2          {while(1){Delay(20);if(P1_7!=0){kn=8;break;}}break;}
+  84   2        if(P1_4==0)
+  85   2          {while(1){Delay(20);if(P1_7!=0){kn=23;break;}}break;}
+  86   2      }
+  87   1      
+  88   1        return kn;
+  89   1      }
+  90          unsigned char  LoneScanKey() //扫描一遍，判断是否松手，与while()配合使用
+  91          {
+  92   1        char kn;
+  93   1        kn=25;
+  94   1        P1=0xFF;
+  95   1        P1_3=0;
+  96   1        if(P1_7==0)
+  97   1          {while(1){if(P1_7!=0){Delay(2);kn=11;break;}}}
+  98   1        if(P1_6==0)
+  99   1          {while(1){if(P1_7!=0){Delay(2);kn=1;break;}}}
+ 100   1        if(P1_5==0)
+ 101   1          {while(1){if(P1_7!=0){Delay(2);kn=5;break;}}}
+ 102   1        if(P1_4==0)
+ 103   1          {while(1){if(P1_7!=0){Delay(2);kn=9;break;}}}
+ 104   1        
+ 105   1        P1=0xFF;
+ 106   1        P1_2=0;
+ 107   1        if(P1_7==0)
+ 108   1          {while(1){if(P1_7!=0){Delay(2);kn=12;break;}}}
+ 109   1        if(P1_6==0)
+ 110   1          {while(1){if(P1_7!=0){Delay(2);kn=2;break;}}}
+ 111   1        if(P1_5==0)
+ 112   1          {while(1){if(P1_7!=0){Delay(2);kn=6;break;}}}
+ 113   1        if(P1_4==0)
+ 114   1          {while(1){if(P1_7!=0){Delay(2);kn=0;break;}}}
+ 115   1          
+ 116   1        P1=0xFF;
+C51 COMPILER V9.59.0.0   DISPLAY                                                           08/29/2024 14:55:16 PAGE 3   
+
+ 117   1        P1_1=0;
+ 118   1        if(P1_7==0)
+ 119   1          {while(1){if(P1_7!=0){Delay(2);kn=13;break;}}}
+ 120   1        if(P1_6==0)
+ 121   1          {while(1){if(P1_7!=0){Delay(2);kn=3;break;}}}
+ 122   1        if(P1_5==0)
+ 123   1          {while(1){if(P1_7!=0){Delay(2);kn=7;break;}}}
+ 124   1        if(P1_4==0)
+ 125   1          {while(1){if(P1_7!=0){Delay(2);kn=21;break;}}}
+ 126   1        
+ 127   1          
+ 128   1        P1=0xFF;
+ 129   1        P1_0=0;
+ 130   1        if(P1_7==0)
+ 131   1          {while(1){if(P1_7!=0){Delay(2);kn=22;break;}}}
+ 132   1        if(P1_6==0)
+ 133   1          {while(1){if(P1_7!=0){Delay(2);kn=4;break;}}}
+ 134   1        if(P1_5==0)
+ 135   1          {while(1){if(P1_7!=0){Delay(2);kn=8;break;}}}
+ 136   1        if(P1_4==0)
+ 137   1          {while(1){if(P1_7!=0){Delay(2);kn=23;break;}}}
+ 138   1        return kn;
+ 139   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    629    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

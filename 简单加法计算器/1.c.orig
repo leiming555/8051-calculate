@@ -1,0 +1,509 @@
+#include <REGX52.H>
+#include <INTRINS.H>
+
+
+void Delay (unsigned int xms)
+{
+  unsigned char i, j;
+  while (xms--) {
+    i = 2;
+    j = 239;
+    do {
+      while (--j);
+    } while (--i);
+  }
+}
+
+unsigned char NixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0};
+
+void Nixie (unsigned char Location, Number) //最后的一次赋值即数码管的显示状态
+{
+  switch (Location) {
+  case 1:
+    P2_4 = 1;
+    P2_3 = 1;
+    P2_2 = 1;
+    break;
+  case 2:
+    P2_4 = 1;
+    P2_3 = 1;
+    P2_2 = 0;
+    break;
+  case 3:
+    P2_4 = 1;
+    P2_3 = 0;
+    P2_2 = 1;
+    break;
+  case 4:
+    P2_4 = 1;
+    P2_3 = 0;
+    P2_2 = 0;
+    break;
+  case 5:
+    P2_4 = 0;
+    P2_3 = 1;
+    P2_2 = 1;
+    break;
+  case 6:
+    P2_4 = 0;
+    P2_3 = 1;
+    P2_2 = 0;
+    break;
+  case 7:
+    P2_4 = 0;
+    P2_3 = 0;
+    P2_2 = 1;
+    break;
+  case 8:
+    P2_4 = 0;
+    P2_3 = 0;
+    P2_2 = 0;
+    break;
+  };
+  P0 = NixieTable[Number];
+}
+unsigned char mk()  //反复扫描键盘，直到按下(瞬时)按键后(不是松开后)，并读取数值
+{
+  char kn;
+  kn = 25;
+  while (1) {
+    P1 = 0xFF;
+    P1_3 = 0;
+    if (P1_7 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 11;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_6 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 1;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_5 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 5;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_4 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 9;
+          break;
+        }
+      }
+      break;
+    }
+
+    P1 = 0xFF;
+    P1_2 = 0;
+    if (P1_7 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 12;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_6 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 2;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_5 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 6;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_4 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 0;
+          break;
+        }
+      }
+      break;
+    }
+
+    P1 = 0xFF;
+    P1_1 = 0;
+    if (P1_7 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 13;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_6 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 3;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_5 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 7;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_4 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 21;
+          break;
+        }
+      }
+      break;
+    }
+
+
+    P1 = 0xFF;
+    P1_0 = 0;
+    if (P1_7 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 22;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_6 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 4;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_5 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 8;
+          break;
+        }
+      }
+      break;
+    }
+    if (P1_4 == 0) {
+      while (1) {
+        Delay (20);
+        if (P1_7 != 0) {
+          kn = 23;
+          break;
+        }
+      }
+      break;
+    }
+  }
+
+  return kn;
+}
+
+unsigned char lmk() //扫描一遍，判断是否松手，与while()配合使用
+{
+  char kn;
+  kn = 25;
+  P1 = 0xFF;
+  P1_3 = 0;
+  if (P1_7 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 11;
+        break;
+      }
+    }
+  }
+  if (P1_6 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 1;
+        break;
+      }
+    }
+  }
+  if (P1_5 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 5;
+        break;
+      }
+    }
+  }
+  if (P1_4 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 9;
+        break;
+      }
+    }
+  }
+
+  P1 = 0xFF;
+  P1_2 = 0;
+  if (P1_7 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 12;
+        break;
+      }
+    }
+  }
+  if (P1_6 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 2;
+        break;
+      }
+    }
+  }
+  if (P1_5 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 6;
+        break;
+      }
+    }
+  }
+  if (P1_4 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 0;
+        break;
+      }
+    }
+  }
+
+  P1 = 0xFF;
+  P1_1 = 0;
+  if (P1_7 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 13;
+        break;
+      }
+    }
+  }
+  if (P1_6 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 3;
+        break;
+      }
+    }
+  }
+  if (P1_5 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 7;
+        break;
+      }
+    }
+  }
+  if (P1_4 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 21;
+        break;
+      }
+    }
+  }
+
+
+  P1 = 0xFF;
+  P1_0 = 0;
+  if (P1_7 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 22;
+        break;
+      }
+    }
+  }
+  if (P1_6 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 4;
+        break;
+      }
+    }
+  }
+  if (P1_5 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 8;
+        break;
+      }
+    }
+  }
+  if (P1_4 == 0) {
+    while (1) {
+      Delay (20);
+      if (P1_7 != 0) {
+        kn = 23;
+        break;
+      }
+    }
+  }
+}
+
+void main()
+{
+  char num1, num2, num3, num4, press, k1, k2;
+  int sum, f1, f2, f3;
+  num1 = 66, num2 = 66;
+  Nixie (1, 10);
+  num1 = mk();
+  while (1) {
+    Nixie (2, num1);
+    P0 = 0;
+    Nixie (1, 10);
+    press = lmk();
+    if (press == 25) {
+      while (1) {
+        Nixie (2, num1);
+        P0 = 0;
+        Nixie (1, 10);
+        press = lmk();
+        if (press != 25) {
+          num2 = mk();
+          break;
+        }
+      }
+      break;
+    }
+  }
+
+  while (1) {
+    Nixie (1, num1);
+    P0 = 0;
+    Nixie (2, num2);
+    P0 = 0;
+    press = lmk();
+    if (press == 11) { //运算符“+”
+      while (1) {
+        Nixie (1, 0);
+        P0 = 0;
+        Nixie (2, 0);
+        P0 = 0;
+        press = lmk();
+        if (press == 25) {
+          while (1) {
+            Nixie (2, 0);
+            P0 = 0;
+            Nixie (1, 0);
+            P0 = 0;
+            press = lmk();
+            if (press != 25) {
+              num3 = mk();  //输入第二组运算数
+              break;
+            }
+          }
+          break;
+        }
+      }
+      while (1) {
+        Nixie (2, num3);
+        P0 = 0;
+        Nixie (1, 10);
+        press = lmk();
+        if (press == 25) {
+          while (1) {
+            Nixie (2, num3);
+            P0 = 0;
+            Nixie (1, 10);
+            press = lmk();
+            if (press != 25) {  //反复扫描，直到按下第三个数字的手指松开后
+              num4 = mk();
+              break;
+            }
+          }
+          break;
+        }
+      }
+      break;
+    }
+  }
+
+  while (1) {
+    Nixie (1, num3);
+    P0 = 0;
+    Nixie (2, num4);
+    P0 = 0;
+    press = lmk();
+    if (press == 12) {
+      k1 = num1 * 10 + num2;
+      k2 = num3 * 10 + num4;
+      sum = k1 + k2;
+      f1 = sum / 100, f2 = (sum / 10) % 10, f3 = sum % 10;
+      while (1) {
+        Nixie (1, f1);
+        P0 = 0;
+        Nixie (2, f2);
+        P0 = 0;
+        Nixie (3, f3);
+        P0 = 0;
+      }
+    }
+  }
+}
+
